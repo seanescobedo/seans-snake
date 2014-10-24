@@ -34,6 +34,7 @@ function gameLoop() {
     gameDraw();
     snakeUpdate();
     snakeDraw();
+    foodDraw();
 }
 function gameDraw() {
     context.fillStyle = "rgb(240, 14, 67)";
@@ -46,6 +47,7 @@ function snakeInitialize(){
     snake = [];
     snakeLength = 7;
     snakeSize = 21;
+    snakeDirection  = "down";
     
     for(var index = snakeLength - 1; index >=0; index--) {
         snake.push( {
@@ -63,12 +65,11 @@ function snakeDraw(){
 function snakeUpdate(){
     var snakeHeadX = snake[0].x;
     var snakeHeadY = snake[0].y;
-    
-    if (snakeDirection == "up"){
-        //up
-        
-    }
-    
+   
+   if(snakeDirection == "down") {
+       snakeHeadY++;
+   }
+   
     var snakeTail =  snake.pop();
     snakeTail.x = snakeHeadX;
     snakeTail.y = snakeHeadY;
@@ -76,19 +77,19 @@ function snakeUpdate(){
 }
 
 function snakeMovement(event) {
-    if (event.keyCode == '38') {
+    if (event.keyCode === '38') {
         //up
         snakeDirection = "up";
     }
-    else if (event.keyCode == '40'){
+    else if (event.keyCode === '40'){
         //down
         snakeDirection = "down";
     }
-    else if (event.keyCode == '39'){
+    else if (event.keyCode === '39'){
         //right
         snakeDirection = "right";
     }
-    else if (event.keyCode == '37'){
+    else if (event.keyCode === '37'){
         //left
         snakeDirection = "left";
     }
@@ -110,6 +111,7 @@ function foodDraw(){
 function setFoodPosition(){
     var randomX = Math.floor(Math.random() * screenWidth);
     var randomY = Math.floor(Math.random() * screenHeight);
+    
     food.x = randomX;
     food.y = randomY;
 }
