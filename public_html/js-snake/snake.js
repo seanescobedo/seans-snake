@@ -44,7 +44,7 @@ function gameInitialize() {
     centerMenuPosition(gameOverMenu);
     
     restartButton = document.getElementById("restartButton");
-    restartButton.addEventListener("click");
+    restartButton.addEventListener("click", gameRestart);
     
     setState("PLAY");
 }
@@ -58,15 +58,22 @@ function gameLoop() {
 }
 function gameDraw() {
     context.fillStyle = "rgb(240, 14, 67)";
-    context.fillRect(0, 0, screenWidth, screenHeight);
-    
+    context.fillRect(0, 0, screenWidth, screenHeight);   
 }
+
+function gameRestart() {
+    snakeInitialize();
+    foodInitialize();
+    hideMenu(gameOverMenu);
+    setState("PLAY");
+}
+
 /*----------------------------------------------------------------------------
  * Functionz Of Da Snake
  -----------------------------------------------------------------------------*/
 function snakeInitialize() {
     snake = [];
-    snakeLength = 6;
+    snakeLength = 30;
     snakeSize = 20;
     snakeDirection = "down";
 
@@ -102,6 +109,7 @@ function snakeUpdate() {
 
     checkFoodCollisions(snakeHeadX, snakeHeadY);
     checkWallCollisions(snakeHeadX, snakeHeadY);
+    checkSnakeCollisions(snakeHeadX, snakeHeadY);
 
     var snakeTail = snake.pop();
     snakeTail.x = snakeHeadX;
@@ -181,7 +189,8 @@ function checkFoodCollisions(snakeHeadX, snakeHeadY) {
             x: 0,
             y: 0
         });
-        snakeLength++;
+        snakeLength++; 
+        setFoodPosition();
     }
 }
 
@@ -189,8 +198,17 @@ function checkWallCollisions(snakeHeadX, snakeHeadY) {
     if (snakeHeadX * snakeSize >= screenWidth || snakeHeadX * snakeSize < 0) {
         setState("GAME OVER");
     }
-    if (snakeHeadY * snakeSize >= screenWidth || snakeHeadY * snakeSize < 0) {
+    if (snakeHeadY * snakeSize >= screenHeight || snakeHeadY * snakeSize < 0) {
         setState("GAME OVER");
+    }
+}
+
+function checkSnakeCollisions(snakeHeadX, snakeHeadY){
+    for(var index = 1; index < snake.length; index++) {
+        if(snakeHeadX == snake[index].x && snakeHeadY == [index].y) {
+            setState("GAME OVER");
+            return;
+        }
     }
 }
 
@@ -209,6 +227,10 @@ function setState(state) {
 
 function displayMenu(menu) {
     menu.style.visibility = "visible";
+}
+
+function hideMenu(menu) {
+    menu.style.visibility = "hidden";
 }
 
 function showMenu(state) {
