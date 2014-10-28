@@ -11,3 +11,23 @@ body {
     position: absolute;
     visibility: hidden;
 }
+
+h1, h3 {
+    font-family: 'Orbitron', sans-serif;
+    text-align: center;
+}
+
+.title {
+    font-size: 80px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+#restartButton {
+    border: 3px solid;
+    border-radius: 21px;
+}
+
+#restartButton:hover {
+    background-color: #123456;
+}

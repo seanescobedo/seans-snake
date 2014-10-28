@@ -13,6 +13,8 @@ var screenWidth;
 var screenHeight;
 
 var gameState;
+var gameOverMenu;
+var restartButton;
 
 /*----------------------------------------------------------------------------
  * Excuting Da Game Code
@@ -37,7 +39,13 @@ function gameInitialize() {
     canvas.height = screenHeight;
 
     document.addEventListener("keydown", keyboardHandler);
-
+    
+    gameOverMenu = document.getElementById("gameOver");
+    centerMenuPosition(gameOverMenu);
+    
+    restartButton = document.getElementById("restartButton");
+    restartButton.addEventListener("click");
+    
     setState("PLAY");
 }
 function gameLoop() {
@@ -51,6 +59,7 @@ function gameLoop() {
 function gameDraw() {
     context.fillStyle = "rgb(240, 14, 67)";
     context.fillRect(0, 0, screenWidth, screenHeight);
+    
 }
 /*----------------------------------------------------------------------------
  * Functionz Of Da Snake
@@ -191,4 +200,24 @@ function checkWallCollisions(snakeHeadX, snakeHeadY) {
 
 function setState(state) {
     gameState = state;
+    showMenu(state);
+}
+
+/*----------------------------------------------------------------------------
+ * Da Menuz
+ -----------------------------------------------------------------------------*/
+
+function displayMenu(menu) {
+    menu.style.visibility = "visible";
+}
+
+function showMenu(state) {
+     if(state == "GAME OVER") {
+         displayMenu(gameOverMenu);
+     }
+}
+
+function centerMenuPosition(menu) {
+    menu.style.top = (screenHeight / 2) - (menu.offsetHeight / 2) + "px";
+    menu.style.left = (screenWidth / 2) - (menu.offsetWidth / 2) + "px";
 }
